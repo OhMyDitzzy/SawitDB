@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SawitDB - Tani Edition Documentation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        sawit: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for sidebar */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-800 font-sans antialiased">
+
+    <!-- Mobile Header -->
+    <div class="lg:hidden flex items-center justify-between p-4 bg-sawit-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="flex items-center space-x-3">
+            <span class="font-bold text-lg">SawitDB</span>
+        </div>
+        <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+            class="p-2 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="hidden lg:hidden fixed inset-0 bg-gray-800 bg-opacity-95 z-40 p-4 transition-all duration-300">
+        <div class="flex justify-end mb-4">
+            <button onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                class="text-white p-2">✕</button>
+        </div>
+        <nav class="flex flex-col space-y-4 text-center">
+            <a href="#intro" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Introduction</a>
+            <a href="#features" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Features</a>
+            <a href="#filosofi" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Filosofi</a>
+            <a href="#installation" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Installation</a>
+            <a href="#syntax" class="text-white text-lg font-medium hover:text-sawit-400" onclick="toggleMenu()">AQL
+                Syntax</a>
+            <a href="#network" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Network Edition</a>
+            <a href="#client-api" class="text-white text-lg font-medium hover:text-sawit-400"
+                onclick="toggleMenu()">Client API</a>
+            <a href="#cli" class="text-white text-lg font-medium hover:text-sawit-400" onclick="toggleMenu()">CLI
+                Tool</a>
+        </nav>
+    </div>
+
+    <div class="flex min-h-screen">
+        <!-- Desktop Sidebar -->
+        <aside class="hidden lg:flex flex-col w-72 bg-sawit-900 fixed h-screen overflow-y-auto z-30 shadow-xl">
+            <div class="p-6 text-center border-b border-sawit-800">
+                <h1 class="text-2xl font-bold text-white tracking-wide">SawitDB</h1>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-1">
+                <a href="#intro"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Introduction
+                </a>
+                <a href="#features"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Features
+                </a>
+                <a href="#filosofi"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Filosofi
+                </a>
+                <a href="#installation"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Installation
+                </a>
+                <a href="#syntax"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Query Syntax
+                </a>
+                <a href="#network"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Network Edition
+                </a>
+                <a href="#client-api"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    Client API
+                </a>
+                <a href="#cli"
+                    class="flex items-center px-4 py-3 text-gray-300 hover:bg-sawit-800 hover:text-white rounded-lg transition-colors group">
+                    CLI Tool
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-sawit-800 text-center">
+                <p class="text-xs text-gray-300">&copy; 2025 SawitDB Core Team</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 lg:ml-72 px-4 py-8 lg:p-12 max-w-5xl mx-auto w-full overflow-x-hidden">
+
+            <!-- Intro Section -->
+            <section id="intro" class="mb-16 scroll-mt-24">
+                <h2 class="text-4xl font-extrabold text-sawit-900 mb-6 border-b-4 border-sawit-500 inline-block pb-2">
+                    Introduction</h2>
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-md transition-shadow">
+                    <p class="text-lg leading-relaxed text-gray-600 mb-6">
+                        <strong class="text-sawit-700">SawitDB</strong> is a revolutionary database solution stored in
+                        single <code class="bg-gray-100 text-red-500 px-2 py-1 rounded text-sm font-mono">.sawit</code>
+                        binary files.
+                        It combines the reliability of a Paged Heap File architecture with the charm of localized
+                        wisdom.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        What differentiates SawitDB is its unique <strong>Agricultural Query Language (AQL)</strong>,
+                        which replaces standard SQL keywords with Indonesian farming terminology, making database
+                        management as intuitive as managing a plantation.
+                    </p>
+                </div>
+
+                <!-- Alert Box -->
+                <div
+                    class="mt-8 bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between">
+                    <div>
+                        <h3 class="text-amber-800 font-bold text-lg mb-1">🚨 Emergency: Aceh Flood Relief</h3>
+                        <p class="text-amber-700 text-sm">Please support our brothers and sisters in Aceh.</p>
+                    </div>
+                    <a href="https://kitabisa.com/campaign/donasipedulibanjiraceh" target="_blank"
+                        class="mt-4 md:mt-0 inline-flex items-center px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
+                        Donate via Kitabisa
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Features -->
+            <section id="features" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    Features
+                </h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">Paged Architecture</h3>
+                        <p class="text-gray-600 text-sm">Data stored in 4096-byte binary pages. Optimized for low memory
+                            footprint.</p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">Single File Storage</h3>
+                        <p class="text-gray-600 text-sm">All data, schema, and indexes reside in a single
+                            <code>.sawit</code> file.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">High Stability</h3>
+                        <p class="text-gray-600 text-sm">Uses 4KB atomic pages. More stable than a coalition government.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">Anti-Korupsi Integrity</h3>
+                        <p class="text-gray-600 text-sm">Strict <code>fsync</code> protocols ensure data is safe and
+                            never "mysteriously disappears".</p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">Zero Bureaucracy</h3>
+                        <p class="text-gray-600 text-sm">Pure Node.js. Zero dependencies. No "Vendor Pengadaan" or
+                            markups.</p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-sawit-200 transition-colors">
+                        <h3 class="font-bold text-xl text-sawit-800 mb-2">Transparansi</h3>
+                        <p class="text-gray-600 text-sm">Clear query language. No "Pasal Karet" (ambiguous laws).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filosofi -->
+            <section id="filosofi" class="mb-16 scroll-mt-24">
+                <div
+                    class="bg-gradient-to-br from-sawit-800 to-sawit-900 rounded-2xl p-8 md:p-12 text-white shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10 transform translate-x-10 -translate-y-10">
+                        <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 22h20L12 2zm0 3.5L18.5 20h-13L12 5.5z" />
+                        </svg>
+                    </div>
+
+                    <h2 class="text-3xl font-bold mb-8 border-b border-gray-600 pb-4 inline-block">Filosofi</h2>
+
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div>
+                            <h3 class="text-xl font-bold text-sawit-300 mb-4 flex items-center">Filosofi (ID)</h3>
+                            <p class="text-sawit-100 leading-relaxed text-sm">
+                                SawitDB dibangun dengan semangat "Kemandirian Data". Kami percaya database yang handal
+                                tidak butuh <strong>Infrastruktur Langit</strong> yang harganya triliunan tapi sering
+                                <em>down</em>. Berbeda dengan proyek negara yang mahal di <em>budget</em> tapi murah di
+                                kualitas, SawitDB menggunakan arsitektur <strong>Single File</strong> yang hemat biaya.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-sawit-300 mb-4 flex items-center">Philosophy (EN)
+                            </h3>
+                            <p class="text-sawit-100 leading-relaxed text-sm">
+                                SawitDB is built with the spirit of "Data Sovereignty". We believe a reliable database
+                                doesn't need <strong>"Sky Infrastructure"</strong> that costs trillions yet goes
+                                <em>down</em> often. SawitDB uses a cost-effective <strong>Single File</strong>
+                                architecture. Data integrity is non-negotiable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section id="installation" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    Installation
+                </h2>
+
+                <div class="bg-gray-900 rounded-xl p-6 shadow-xl mb-8 overflow-x-auto">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-gray-500 text-xs ml-2">bash</span>
+                    </div>
+                    <code class="block font-mono text-sm text-green-400">
+                        git clone https://github.com/WowoEngine/SawitDB.git<br>
+                        cd SawitDB<br>
+                        npm install <span class="text-gray-500"># Pure Node.js, no heavy deps!</span>
+                    </code>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-700 mb-4">Initialization</h3>
+                <div class="bg-gray-900 rounded-xl p-6 shadow-xl overflow-x-auto">
+                    <code class="font-mono text-sm text-gray-300">
+                        <span class="text-purple-400">const</span> SawitDB = <span class="text-blue-400">require</span>(<span class="text-green-300">'./src/WowoEngine'</span>);<br>
+                        <span class="text-purple-400">const</span> path = <span class="text-blue-400">require</span>(<span class="text-green-300">'path'</span>);<br><br>
+                        <span class="text-gray-500">// Initialize the engine. File created automatically.</span><br>
+                        <span class="text-purple-400">const</span> db = <span class="text-purple-400">new</span> <span class="text-yellow-300">SawitDB</span>(path.<span class="text-blue-400">join</span>(__dirname, <span class="text-green-300">'plantation.sawit'</span>));
+                    </code>
+                </div>
+            </section>
+
+            <!-- Syntax -->
+            <section id="syntax" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    Query Syntax (AQL)
+                </h2>
+                <p class="text-gray-600 mb-8">SawitDB uses intuitive farming metaphors for all database operations.</p>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-sawit-50 p-4 border-b border-sawit-100">
+                            <h3 class="font-bold text-sawit-800">Management</h3>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Create
+                                    Table</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">LAHAN [name]
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Show
+                                    Tables</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">LIHAT LAHAN
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Drop Table</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">BAKAR LAHAN
+                                    [name]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-blue-50 p-4 border-b border-blue-100">
+                            <h3 class="font-bold text-blue-800">Data Manipulation</h3>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Insert
+                                    (Plant)</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">TANAM KE
+                                    [table] (cols) BIBIT (vals)</div>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Select
+                                    (Harvest)</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">PANEN * DARI
+                                    [table] DIMANA [cond]</div>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Update
+                                    (Fertilize)</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">PUPUK [table]
+                                    DENGAN x=y DIMANA [cond]</div>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Delete
+                                    (Evict)</span>
+                                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm text-gray-800">GUSUR DARI
+                                    [table] DIMANA [cond]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 text-gray-300 p-6 rounded-xl font-mono text-sm shadow-lg overflow-x-auto">
+                    <span class="text-gray-500">// Create Land</span>
+                    <span class="text-green-400">LAHAN</span> sawit_blok_a
+
+                    <span class="text-gray-500">// Plant Seeds (Insert)</span>
+                    <span class="text-green-400">TANAM KE</span> sawit (id, bibit, umur) <span
+                        class="text-green-400">BIBIT</span> (1, 'Tenera', 5)
+
+                    <span class="text-gray-500">// Harvest (Select)</span>
+                    <span class="text-green-400">PANEN</span> * <span class="text-green-400">DARI</span> sawit <span
+                        class="text-green-400">DIMANA</span> umur > 3
+
+                    <span class="text-gray-500">// Fertilize (Update)</span>
+                    <span class="text-green-400">PUPUK</span> sawit <span class="text-green-400">DENGAN</span>
+                    status='Panen' <span class="text-green-400">DIMANA</span> umur >= 10
+
+                    <span class="text-gray-500">// Evict (Delete)</span>
+                    <span class="text-green-400">GUSUR DARI</span> sawit <span class="text-green-400">DIMANA</span> id =
+                    99
+                </div>
+            </section>
+
+            <!-- Network Edition -->
+            <section id="network" class="mb-16 scroll-mt-24">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 flex items-center">
+                        Network Edition
+                    </h2>
+                    <span
+                        class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-bold border border-red-200">v2.0
+                        NEW</span>
+                </div>
+
+                <p class="text-gray-600 mb-6">Connect using the <code
+                        class="text-red-500 bg-gray-100 px-1 rounded">sawitdb://</code> protocol and manage your data
+                    remotely.</p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="font-bold text-gray-800 mb-2">MongoDB - Style Connection</h4>
+                        <code class="text-sm bg-gray-50 p-1 block rounded">sawitdb://host:port/database</code>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="font-bold text-gray-800 mb-2">Advanced Features</h4>
+                        <ul class="text-sm text-gray-600 list-disc ml-4 space-y-1">
+                            <li>Multi-database Support</li>
+                            <li>B-Tree Indexing</li>
+                            <li>Aggregations (COUNT, SUM, etc.)</li>
+                            <li>Optional Authentication</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl p-6 text-white shadow-lg">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Start Server</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <pre class="font-mono text-sm text-green-400">node bin/sawit-server.js --port 7878</pre>
+                    </div>
+
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Environment Variables
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-sm text-gray-300 overflow-x-auto">
+                        <div class="border-b border-gray-700 pb-2">SAWIT_PORT=7878</div>
+                        <div class="border-b border-gray-700 pb-2">SAWIT_HOST=0.0.0.0</div>
+                        <div class="border-b border-gray-700 pb-2">SAWIT_DATA_DIR=./data</div>
+                        <div class="border-b border-gray-700 pb-2">SAWIT_AUTH=user:pass</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Client API & CLI -->
+            <section id="tools-section" class="mb-16 scroll-mt-24">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+                    <div id="client-api" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            Client API
+                        </h2>
+                        <div class="bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                            <pre class="font-mono text-xs text-blue-200 leading-relaxed">
+    const SawitClient = require('./src/SawitClient');
+
+    // Connect
+    const client = new SawitClient(
+    'sawitdb://localhost:7878/plantation'
+    );
+    await client.connect();
+
+    // Query
+    const result = await client.query(
+    'PANEN * DARI sawit'
+    );
+
+    // Disconnect
+    client.disconnect();</pre>
+                        </div>
+                    </div>
+
+                    <div id="cli" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            CLI Tool
+                        </h2>
+                        <p class="text-sm text-gray-600 mb-4">Manage your database directly from the terminal.</p>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-xs font-bold text-gray-500 uppercase mb-1">Local CLI</div>
+                                <code
+                                    class="block bg-gray-100 text-gray-800 p-2 rounded text-sm font-mono border border-gray-200">node cli/local.js</code>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-gray-500 uppercase mb-1">Network CLI</div>
+                                <code
+                                    class="block bg-gray-100 text-gray-800 p-2 rounded text-sm font-mono border border-gray-200">node cli/remote.js [url]</code>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 bg-yellow-50 text-yellow-800 text-sm p-3 rounded-lg border border-yellow-200">
+                            <strong>Pro Tip:</strong> Use <code>.help</code> inside the CLI to see available commands.
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (!menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
