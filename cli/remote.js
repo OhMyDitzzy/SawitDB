@@ -30,20 +30,27 @@ async function init() {
     try {
         await client.connect();
         console.log('✓ Connected to SawitDB server\n');
-        console.log('Commands:');
-        console.log('  LAHAN [nama]              - Create table');
-        console.log('  LIHAT LAHAN              - Show tables');
-        console.log('  LIHAT INDEKS [table]     - Show indexes');
-        console.log('  TANAM KE ...             - Insert data');
-        console.log('  PANEN ... DARI ...       - Select data');
-        console.log('  PUPUK ... DENGAN ...     - Update data');
-        console.log('  GUSUR DARI ...           - Delete data');
-        console.log('  BAKAR LAHAN [nama]       - Drop table');
-        console.log('  INDEKS [table] PADA [field] - Create index');
-        console.log('  HITUNG FUNC(...) DARI ... - Aggregate');
+        console.log('Commands (Tani / SQL):');
+        console.log('  LAHAN [nama] | CREATE TABLE [name]         - Create table');
+        console.log('  LIHAT LAHAN | SHOW TABLES                  - Show tables');
+        console.log('  LIHAT INDEKS [table] | SHOW INDEXES [table]- Show indexes');
+        console.log('  TANAM KE [table] (cols) BIBIT (vals)       - Insert data');
+        console.log('  INSERT INTO [table] (cols) VALUES (vals)    - Insert data (SQL)');
+        console.log('  PANEN ... DARI [table] | SELECT ... FROM   - Select data');
+        console.log('  ... DIMANA [criteria] | ... WHERE ...      - Filter data');
+        console.log('  PUPUK [table] DENGAN ... | UPDATE [table] SET ... - Update data');
+        console.log('  GUSUR DARI [table] | DELETE FROM [table]   - Delete data');
+        console.log('  BAKAR LAHAN [table] | DROP TABLE [table]   - Drop table');
+        console.log('  INDEKS [table] PADA [field]                - Create index');
+        console.log('  CREATE INDEX ON [table] ([field])           - Create index (SQL)');
+        console.log('  HITUNG FUNC(field) DARI ...                - Aggregate (SUM, AVG, COUNT, MIN, MAX)');
+        console.log('  ... KELOMPOK [field] | ... GROUP BY [field]- Grouping');
+        console.log('');
+        console.log('Special Commands:');
         console.log('  .databases               - List all databases');
         console.log('  .use [db]                - Switch database');
         console.log('  .ping                    - Ping server');
+        console.log('  .stats                   - Server Statistics');
         console.log('  .help                    - Show this help');
         console.log('  EXIT                     - Disconnect and exit');
         console.log('');
@@ -79,6 +86,38 @@ function prompt() {
         // Special commands
         if (cmd.startsWith('.')) {
             await handleSpecialCommand(cmd);
+            return prompt();
+        }
+
+        // Multi-schema support: Intercept USE / MASUK WILAYAH to update client state
+        const upperCmd = cmd.toUpperCase();
+        if (upperCmd.startsWith('USE ') || upperCmd.startsWith('MASUK WILAYAH ')) {
+            const parts = cmd.trim().split(/\s+/);
+            let dbName = null;
+
+            if (upperCmd.startsWith('USE ')) {
+                if (parts.length < 2) {
+                    console.log('Syntax: USE [database]');
+                    return prompt();
+                }
+                dbName = parts[1];
+            } else {
+                if (parts.length < 3) {
+                    console.log('Syntax: MASUK WILAYAH [nama_wilayah]');
+                    return prompt();
+                }
+                dbName = parts[2];
+            }
+
+            try {
+                await client.use(dbName); // This updates client.currentDatabase
+                // server sends 'use_success' message which client.use logs? 
+                // client.use logs "[Client] Using database..."
+                // We can add extra user feedback if needed, usually client logs are enough or suppressed.
+                // SawitClient.use does console.log.
+            } catch (error) {
+                console.error('Error switching database:', error.message);
+            }
             return prompt();
         }
 
